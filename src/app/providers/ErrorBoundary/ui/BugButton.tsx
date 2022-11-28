@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { classNames } from 'shared/lib/classNames';
 import { Button } from 'shared/ui/Button/Button';
 
 interface BugButtonProps {
@@ -16,7 +15,9 @@ export const BugButton = ({ className }: BugButtonProps) => {
     useEffect(() => {
         if (error) throw new Error();
     }, [error]);
+
     return (
+        // eslint-disable-next-line i18next/no-literal-string
         <Button onClick={toggle}>
             cause error
         </Button>
