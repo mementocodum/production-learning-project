@@ -18,6 +18,7 @@ export default {
     // An array of directory names to be searched recursively up from the requiring module's location
     moduleDirectories: [
         'node_modules',
+        'src',
     ],
 
     // An array of file extensions your modules use
@@ -44,6 +45,7 @@ export default {
     setupFilesAfterEnv: ['<rootDir>/config/jest/setupTests.ts'],
 
     moduleNameMapper: {
+        '@/(.*)': '<rootDir>src/$1',
         '\\.s?css$': 'identity-obj-proxy',
         '\\.svg': path.resolve(__dirname, 'jestEmptyComponent.tsx'),
     },
