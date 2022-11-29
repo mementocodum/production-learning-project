@@ -33,6 +33,7 @@ module.exports = {
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',
         'no-underscore-dangle': 'off',
+        'linebreak-style': 0,
         'i18next/no-literal-string': ['error', {
             markupOnly: true,
             ignoreAttribute: ['data-testid', 'to'],
@@ -49,7 +50,6 @@ module.exports = {
         files: ['**/src/**/*.test.{ts,tsx}'],
         rules: {
             'i18next/no-literal-string': 'off',
-            'linebreak-style': 0,
         },
     }],
 };
