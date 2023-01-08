@@ -5,7 +5,7 @@ import { User, UserSchema } from '../types/user';
 const initialState: UserSchema = {
 };
 
-export const useSlice = createSlice({
+export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -26,5 +26,5 @@ export const useSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { actions: userActions } = useSlice;
-export const { reducer: userReducer } = useSlice;
+export const { actions: userActions } = userSlice;
+export const { reducer: userReducer } = userSlice;
