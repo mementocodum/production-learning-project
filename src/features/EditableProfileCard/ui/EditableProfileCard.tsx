@@ -2,12 +2,16 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import {
-    getProfileData,
-    getProfileError, getProfileForm,
-    getProfileIsLoading, getProfileReadonly, profileActions,
-    ProfileCard, updateProfileData,
+    getProfileError,
+    getProfileForm,
+    getProfileIsLoading,
+    getProfileReadonly,
+    getProfileValidateError,
+    profileActions,
+    ProfileCard,
+    updateProfileData, ValidateProfileError,
 } from 'enteties/Profile';
-import { Text } from 'shared/ui/Text/Text';
+import { Text, TextTheme } from 'shared/ui/Text/Text';
 import { Button, ButtonTheme } from 'shared/ui/Button/Button';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Currency } from 'enteties/Currency';
@@ -21,11 +25,21 @@ interface EditableProfileCardProps {
 export const EditableProfileCard = (props: EditableProfileCardProps) => {
     const { className } = props;
 
-    const { t } = useTranslation();
+    const { t } = useTranslation('profile');
     const profile = useSelector(getProfileForm);
     const error = useSelector(getProfileError);
     const isLoading = useSelector(getProfileIsLoading);
     const readonly = useSelector(getProfileReadonly);
+    const validateProfileErrors = useSelector(getProfileValidateError);
+
+    const validateProfileErrorsTranslation = {
+        [ValidateProfileError.SERVER_ERROR]: t('Произошла ошибка сервера'),
+        [ValidateProfileError.INCORRECT_USER_DATA]: t('Недопустимые значения имени и фамии'),
+        [ValidateProfileError.INCORRECT_AGE]: t('Недопустимый возраст'),
+        [ValidateProfileError.INCORRECT_COUNTRY]: t('Недопустимая страна'),
+        [ValidateProfileError.NO_DATA]: t('Нет данных профиля'),
+
+    };
 
     const dispatch = useAppDispatch();
 
@@ -97,6 +111,15 @@ export const EditableProfileCard = (props: EditableProfileCardProps) => {
 
                     )}
             </div>
+            {validateProfileErrors?.length && validateProfileErrors.map(
+                (err) => (
+                    <Text
+                        key={err}
+                        theme={TextTheme.ERROR}
+                        text={validateProfileErrorsTranslation[err]}
+                    />
+                ),
+            )}
             <ProfileCard
                 data={profile}
                 isLoading={isLoading}
