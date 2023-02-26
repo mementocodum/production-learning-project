@@ -11,7 +11,7 @@ import {
     ProfileCard,
     updateProfileData, ValidateProfileError,
 } from 'enteties/Profile';
-import { Text, TextTheme } from 'shared/ui/Text/Text';
+import { AppText, TextTheme } from 'shared/ui/Text/AppText';
 import { Button, ButtonTheme } from 'shared/ui/Button/Button';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Currency } from 'enteties/Currency';
@@ -81,7 +81,7 @@ export const EditableProfileCard = (props: EditableProfileCardProps) => {
     return (
         <div>
             <div className={cls.EditableProfileCard}>
-                <Text title={t('Профиль')} />
+                <AppText title={t('Профиль')} />
                 {readonly
                     ? (
                         <Button
@@ -113,7 +113,7 @@ export const EditableProfileCard = (props: EditableProfileCardProps) => {
             </div>
             {validateProfileErrors?.length && validateProfileErrors.map(
                 (err) => (
-                    <Text
+                    <AppText
                         key={err}
                         theme={TextTheme.ERROR}
                         text={validateProfileErrorsTranslation[err]}

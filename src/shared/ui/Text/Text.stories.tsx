@@ -3,17 +3,17 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Theme } from 'app/providers/ThemeProvider';
 import 'app/styles/index.scss';
 import { ThemeDecorator } from 'shared/config/storybook/ThemeDecorator/ThemeDecorator';
-import { Text, TextTheme } from './Text';
+import { AppText, TextTheme } from './AppText';
 
 export default {
     title: 'shared/Text',
-    component: Text,
+    component: AppText,
     argTypes: {
         backgroundColor: { control: 'color' },
     },
-} as ComponentMeta<typeof Text>;
+} as ComponentMeta<typeof AppText>;
 
-const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />;
+const Template: ComponentStory<typeof AppText> = (args) => <AppText {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, ButtonTheme } from 'shared/ui/Button/Button';
 import { Input } from 'shared/ui/Input/Input';
 import { useSelector } from 'react-redux';
-import { Text, TextTheme } from 'shared/ui/Text/Text';
+import { AppText, TextTheme } from 'shared/ui/Text/AppText';
 import {
     DynamicModuleLoader,
     ReducersList,
@@ -62,8 +62,8 @@ const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
         // eslint-disable-next-line i18next/no-literal-string
         <DynamicModuleLoader reducers={initialReducers}>
             <div className={classNames(cls.LoginForm, {}, [className])}>
-                <Text title={t('Форма авторизации')} />
-                {error && <Text text={t('Логин или пароль неверные')} theme={TextTheme.ERROR} />}
+                <AppText title={t('Форма авторизации')} />
+                {error && <AppText text={t('Логин или пароль неверные')} theme={TextTheme.ERROR} />}
                 <Input
                     type="text"
                     className={cls.input}
