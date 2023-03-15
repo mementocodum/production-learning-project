@@ -22,8 +22,7 @@
     "test:ui:report": "npm run test:ui:json && npm run test:ui:html",
     "storybook": "start-storybook -p 6006 -c ./config/storybook",
     "storybook:build": "build-storybook -c ./config/storybook",
-    "prepare": "husky install",
-    "crunch": "loki update --storiesFilter=\"^entities\\\\/CountrySelect Primary|entities\\\\/CurrencySelect Primary|entities\\\\/ProfileCard Primary|features\\\\/EditableProfileCard Primary|features\\\\/EditableProfileCard Dark|pages\\\\/ProfilePage Primary|pages\\\\/ProfilePage Dark|shared\\\\/Select Primary|shared\\\\/Button Background Theme|shared\\\\/Button Background Inverted Theme\\$\" --reactUri=\"file:./storybook-static\""
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
