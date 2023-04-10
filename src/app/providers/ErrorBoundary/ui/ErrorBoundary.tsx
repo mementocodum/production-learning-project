@@ -1,12 +1,11 @@
 import React, { ErrorInfo, ReactNode, Suspense } from 'react';
-import { withTranslation } from 'react-i18next';
-import { PageError } from 'widgets/PageError/ui/PageError';
+import { ErrorPage } from 'widgets/ErrorPage/ui/ErrorPage';
 
-export interface ErrorBoundaryProps {
+interface ErrorBoundaryProps {
     children: ReactNode;
 }
 
-export interface ErrorBoundaryState {
+interface ErrorBoundaryState {
     hasError: boolean;
 }
 
@@ -30,11 +29,12 @@ class ErrorBoundary
     render() {
         const { hasError } = this.state;
         const { children } = this.props;
+
         if (hasError) {
             // You can render any custom fallback UI
             return (
                 <Suspense fallback="">
-                    <PageError />
+                    <ErrorPage />
                 </Suspense>
             );
         }

@@ -1,26 +1,17 @@
-import React, { memo, useCallback } from 'react';
-import { classNames } from 'shared/lib/classNames';
+import { classNames } from 'shared/lib/classNames/classNames';
 import { useTranslation } from 'react-i18next';
 import { Button, ButtonTheme } from 'shared/ui/Button/Button';
 import { Input } from 'shared/ui/Input/Input';
 import { useSelector } from 'react-redux';
-import { AppText, TextTheme } from 'shared/ui/Text/AppText';
-import {
-    DynamicModuleLoader,
-    ReducersList,
-} from 'shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
-import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import {
-    getLoginUsername,
-} from '../../model/selectors/getLoginUsername/getLoginUsername';
-import {
-    getLoginPassword,
-} from '../../model/selectors/getLoginPassword/getLoginPassword';
-import {
-    getLoginIsLoading,
-} from '../../model/selectors/getLoginIsLoading/getLoginIsLoading';
+import { memo, useCallback } from 'react';
+import { Text, TextTheme } from 'shared/ui/Text/Text';
+import { DynamicModuleLoader, ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { getLoginUsername } from '../../model/selectors/getLoginUsername/getLoginUsername';
+import { getLoginPassword } from '../../model/selectors/getLoginPassword/getLoginPassword';
+import { getLoginIsLoading } from '../../model/selectors/getLoginIsLoading/getLoginIsLoading';
 import { getLoginError } from '../../model/selectors/getLoginError/getLoginError';
-import { loginByUsername } from '../../services/loginByUsername/loginByUsername';
+import { loginByUsername } from '../../model/services/loginByUsername/loginByUsername';
 import { loginActions, loginReducer } from '../../model/slice/loginSlice';
 import cls from './LoginForm.module.scss';
 
@@ -35,7 +26,6 @@ const initialReducers: ReducersList = {
 
 const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
     const { t } = useTranslation();
-
     const dispatch = useAppDispatch();
     const username = useSelector(getLoginUsername);
     const password = useSelector(getLoginPassword);
@@ -50,24 +40,26 @@ const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
         dispatch(loginActions.setPassword(value));
     }, [dispatch]);
 
-    const onLoginCLick = useCallback(async () => {
+    const onLoginClick = useCallback(async () => {
         const result = await dispatch(loginByUsername({ username, password }));
-
         if (result.meta.requestStatus === 'fulfilled') {
             onSuccess();
         }
-    }, [dispatch, onSuccess, password, username]);
+    }, [onSuccess, dispatch, password, username]);
 
     return (
-        // eslint-disable-next-line i18next/no-literal-string
-        <DynamicModuleLoader reducers={initialReducers}>
+        <DynamicModuleLoader
+            removeAfterUnmount
+            reducers={initialReducers}
+        >
             <div className={classNames(cls.LoginForm, {}, [className])}>
-                <AppText title={t('Форма авторизации')} />
-                {error && <AppText text={t('Логин или пароль неверные')} theme={TextTheme.ERROR} />}
+                <Text title={t('Форма авторизации')} />
+                {error && <Text text={t('Вы ввели неверный логин или пароль')} theme={TextTheme.ERROR} />}
                 <Input
+                    autofocus
                     type="text"
                     className={cls.input}
-                    placeholder={t('Введите имя пользователя')}
+                    placeholder={t('Введите username')}
                     onChange={onChangeUsername}
                     value={username}
                 />
@@ -81,7 +73,7 @@ const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
                 <Button
                     theme={ButtonTheme.OUTLINE}
                     className={cls.loginBtn}
-                    onClick={onLoginCLick}
+                    onClick={onLoginClick}
                     disabled={isLoading}
                 >
                     {t('Войти')}

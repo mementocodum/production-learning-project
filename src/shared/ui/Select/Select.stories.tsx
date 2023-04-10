@@ -1,7 +1,6 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import 'app/styles/index.scss';
-import { Select } from './Select';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Select } from 'shared/ui/Select/Select';
 
 export default {
     title: 'shared/Select',
@@ -15,10 +14,9 @@ const Template: ComponentStory<typeof Select> = (args) => <Select {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-    label: 'TextLabel',
+    label: 'Укажите значение',
     options: [
-        { value: '123', content: 'label 1' },
-        { value: '1234', content: 'label 2' },
-
+        { value: '123', content: 'Первый пункт' },
+        { value: '1234', content: 'Второй пункт' },
     ],
 };

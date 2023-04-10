@@ -1,10 +1,10 @@
+import { classNames, Mods } from 'shared/lib/classNames/classNames';
 import React, {
-    ReactNode, useState, useRef, useEffect, useCallback, MutableRefObject,
+    MutableRefObject,
+    ReactNode, useCallback, useEffect, useRef, useState,
 } from 'react';
-import { classNames } from 'shared/lib/classNames';
 import { Portal } from 'shared/ui/Portal/Portal';
 import { useTheme } from 'app/providers/ThemeProvider';
-import { Mods } from 'shared/lib/classNames/classNames';
 import cls from './Modal.module.scss';
 
 interface ModalProps {
@@ -19,13 +19,17 @@ const ANIMATION_DELAY = 300;
 
 export const Modal = (props: ModalProps) => {
     const {
-        className, children, isOpen, onClose, lazy,
+        className,
+        children,
+        isOpen,
+        onClose,
+        lazy,
     } = props;
 
     const [isClosing, setIsClosing] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-
     const timerRef = useRef() as MutableRefObject<ReturnType<typeof setTimeout>>;
+    const { theme } = useTheme();
 
     useEffect(() => {
         if (isOpen) {
@@ -42,25 +46,33 @@ export const Modal = (props: ModalProps) => {
             }, ANIMATION_DELAY);
         }
     }, [onClose]);
+
+    // Новые ссылки!!!
+    const onKeyDown = useCallback((e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            closeHandler();
+        }
+    }, [closeHandler]);
+
     const onContentClick = (e: React.MouseEvent) => {
         e.stopPropagation();
     };
-    const onKeyDown = useCallback((e: KeyboardEvent) => {
-        if (e.key === 'Escape') closeHandler();
-    }, [closeHandler]);
+
+    useEffect(() => {
+        if (isOpen) {
+            window.addEventListener('keydown', onKeyDown);
+        }
+
+        return () => {
+            clearTimeout(timerRef.current);
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [isOpen, onKeyDown]);
 
     const mods: Mods = {
         [cls.opened]: isOpen,
         [cls.isClosing]: isClosing,
     };
-
-    useEffect(() => () => {
-        if (isOpen) {
-            window.addEventListener('keydown', onKeyDown);
-        }
-        window.removeEventListener('keydown', onKeyDown);
-        clearTimeout(timerRef.current);
-    }, [isOpen, onKeyDown]);
 
     if (lazy && !isMounted) {
         return null;
@@ -68,10 +80,10 @@ export const Modal = (props: ModalProps) => {
 
     return (
         <Portal>
-            <div className={classNames(cls.Modal, mods, [className])}>
+            <div className={classNames(cls.Modal, mods, [className, theme, 'app_modal'])}>
                 <div className={cls.overlay} onClick={closeHandler}>
                     <div
-                        className={classNames(cls.content)}
+                        className={cls.content}
                         onClick={onContentClick}
                     >
                         {children}

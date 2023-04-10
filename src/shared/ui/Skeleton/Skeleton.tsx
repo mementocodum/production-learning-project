@@ -1,6 +1,5 @@
-import React, { CSSProperties, memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { classNames } from 'shared/lib/classNames';
+import { classNames } from 'shared/lib/classNames/classNames';
+import { CSSProperties, memo } from 'react';
 import cls from './Skeleton.module.scss';
 
 interface SkeletonProps {
@@ -18,11 +17,12 @@ export const Skeleton = memo((props: SkeletonProps) => {
         border,
     } = props;
 
-    const styles:CSSProperties = {
+    const styles: CSSProperties = {
         width,
         height,
         borderRadius: border,
     };
+
     return (
         <div
             className={classNames(cls.Skeleton, {}, [className])}
